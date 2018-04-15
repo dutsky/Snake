@@ -1,0 +1,56 @@
+class Game {
+	// field Array playfield;
+	// constructor Game new() {
+	// 	return this;
+	// }
+
+	method void init() {
+		do Screen.clearScreen()
+		do Gfx.placeWall();
+
+		return;
+	}
+
+	method void run() {
+		var Snake snake;
+		var Apple apple;
+		var int direction;
+		var char key;
+		var boolean exit;
+		let exit = false;
+		let direction = 0;
+
+		let snake = Snake.new(8, 8);
+		let apple = Apple.new(128, 16);
+
+		while (~exit) {
+			while (key = 0) {
+				let key = Keyboard.keyPressed();
+				do snake.move(direction);
+			}
+
+			if (key = 130) {
+				let direction = 1;
+			}
+
+			if (key = 131) {
+				let direction = 3;
+			}
+
+			if (key = 132) {
+				let direction = 2;
+			}
+
+			if (key = 133) {
+				let direction = 4;
+			}
+
+			while (~(key = 0)) {
+				let key = Keyboard.keyPressed();
+				do snake.move(direction);
+			}
+		}
+
+		return;
+	}
+}

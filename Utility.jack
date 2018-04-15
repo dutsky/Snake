@@ -1,0 +1,20 @@
+class Utility {
+	field int x;
+	field int y;
+
+	function int coord2addr(int x, int y) {
+		var int addr;
+
+		let addr = x + (y * 512);
+
+		return addr;
+	}
+
+	function int mod(int x, int y) {
+		var int result;
+
+		let result = x - (y * (x / y));
+
+		return result;
+	}
+}

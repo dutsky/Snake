@@ -1,0 +1,77 @@
+class Snake {
+	field int x;
+	field int y;
+	field int length;
+	field int direction;
+
+	constructor Snake new(int _x, int _y) {
+		let x = _x;
+		let y = _y;
+		let length = 0;
+		let direction = 0;
+
+		do Gfx.drawHead(x, y);
+
+		return this;
+	}
+
+	method void dispose() {
+		do Memory.deAlloc(this);
+		return;
+	}
+
+
+	method void moveLeft() {
+		
+		
+		return;
+	}
+
+	method void moveRight() {
+		
+		
+		return;
+	}
+
+	method void moveUp() {
+		
+		
+		return;
+	}
+
+	method void moveDown() {
+		
+		
+		return;
+	}
+
+	method void move(int direction) {
+		do Gfx.erase(x, y);
+
+		if (direction = 1) {
+			let x = x - 1;
+		}
+		if (direction = 2) {
+			let x = x + 1;
+		}
+		if (direction = 3) {
+			let y = y - 1;
+		}
+		if (direction = 4) {
+			let y = y + 1;
+			 
+		}
+
+		do Gfx.drawHead(x, y);
+
+		do Sys.wait(100);
+
+		return;
+	}
+
+	method void grow() {
+		let length = length + 1;
+
+		return;
+	}
+}

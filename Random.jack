@@ -1,0 +1,26 @@
+class Random {
+	field int next;
+
+	constructor Random new(int seed) {
+		let next = seed;
+
+		return this;
+	}
+
+	method void dispose() {
+		do Memory.deAlloc(this);
+		return;
+	}
+
+	method int rand(int num) {
+		let next = next * 13 + 1;
+
+		if (next < 0) {
+			let next = ~next;
+		}
+
+		return Utility.mod(next, num);
+	}
+
+
+}
