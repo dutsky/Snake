@@ -20,52 +20,42 @@ class Snake {
 		return;
 	}
 
-
-	method void moveLeft() {
-		
-		
-		return;
+	method int getX() {
+		return x;
 	}
-
-	method void moveRight() {
-		
-		
-		return;
-	}
-
-	method void moveUp() {
-		
-		
-		return;
-	}
-
-	method void moveDown() {
-		
-		
-		return;
+	
+	method int getY() {
+		return y;
 	}
 
 	method void move(int direction) {
 		do Gfx.erase(x, y);
 
+		// move left
 		if (direction = 1) {
 			let x = x - 1;
 		}
+		// move right
 		if (direction = 2) {
 			let x = x + 1;
 		}
+		// move up
 		if (direction = 3) {
 			let y = y - 1;
 		}
+		// move down
 		if (direction = 4) {
 			let y = y + 1;
 			 
 		}
-
+		
+		return;
+	}
+	
+	method void draw() {
 		do Gfx.drawHead(x, y);
-
 		do Sys.wait(100);
-
+		
 		return;
 	}
 

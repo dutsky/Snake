@@ -1,33 +1,75 @@
 class Game {
-	// field Array playfield;
-	// constructor Game new() {
-	// 	return this;
-	// }
-
-	method void init() {
-		do Screen.clearScreen()
+	field Snake snake;
+	field Apple apple;
+	
+	constructor Game new() {		
+		do Screen.clearScreen();
 		do Gfx.placeWall();
+	
+		let snake = Snake.new(12, 8);
+		let apple = Apple.new();
+	
+	 	return this;
+	}
+
+	method boolean checkWallCollision() {
+		var boolean status;
+		let status = false;
+		
+		if (snake.getX() < 0) {
+			let status = true;
+		}
+		if (snake.getX() > 23) {
+			let status = true;
+		}
+		if (snake.getY() < 0) {
+			let status = true;
+		}
+		if (snake.getY() > 15) {
+			let status = true;
+		}
+		
+		return status;
+	}
+	
+	method void debugCoords() {
+		do Output.moveCursor(2, 54);
+		do Output.printString("X: ");
+		do Output.printInt(snake.getX());
+		do Output.printString(" ");
+		do Output.moveCursor(3, 54);
+		do Output.printString("Y: ");
+		do Output.printInt(snake.getY());
+		do Output.printString(" ");
 
 		return;
 	}
 
 	method void run() {
-		var Snake snake;
-		var Apple apple;
 		var int direction;
 		var char key;
 		var boolean exit;
 		let exit = false;
 		let direction = 0;
 
-		let snake = Snake.new(8, 8);
-		let apple = Apple.new(128, 16);
+		//let apple = Apple.new(128, 16);
 
 		while (~exit) {
-			while (key = 0) {
-				let key = Keyboard.keyPressed();
-				do snake.move(direction);
+			//if (key = 0) {
+			//	let key = Keyboard.keyPressed();
+			//	do snake.move(direction);
+			//	do debugCoords();
+			//}
+			let key = Keyboard.keyPressed();
+			do snake.move(direction);
+			
+			if (checkWallCollision() = true) {
+				let exit = true;
+			} else {
+				do snake.draw();
 			}
+
+			do debugCoords();
 
 			if (key = 130) {
 				let direction = 1;
@@ -43,11 +85,6 @@ class Game {
 
 			if (key = 133) {
 				let direction = 4;
-			}
-
-			while (~(key = 0)) {
-				let key = Keyboard.keyPressed();
-				do snake.move(direction);
 			}
 		}
 
