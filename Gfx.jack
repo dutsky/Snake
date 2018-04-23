@@ -53,7 +53,7 @@ class Gfx {
 		return;
 	}
 
-	function void drawBody(int x, int y) {
+	function void drawBodyElement(int x, int y) {
 		var int location;
 		var int memAddress;
 
@@ -80,7 +80,7 @@ class Gfx {
 		return;
 	}
 	
-	method void drawApple(int x, int y) {
+	function void drawApple(int x, int y) {
 		var int location;
 		var int memAddress;
 

@@ -3,12 +3,14 @@ class Snake {
 	field int y;
 	field int length;
 	field int direction;
+	field Array body;
 
 	constructor Snake new(int _x, int _y) {
 		let x = _x;
 		let y = _y;
-		let length = 0;
+		let length = 2;
 		let direction = 0;
+		let body = Array.new(length);
 
 		do Gfx.drawHead(x, y);
 
@@ -16,6 +18,7 @@ class Snake {
 	}
 
 	method void dispose() {
+		do body.dispose();
 		do Memory.deAlloc(this);
 		return;
 	}
@@ -29,7 +32,18 @@ class Snake {
 	}
 
 	method void move(int direction) {
-		do Gfx.erase(x, y);
+		// do Gfx.erase(x, y);
+		var int i;
+
+		// move body
+		let i = length-1;
+		while (i > 1) {
+			let body[i] = body[i-2];
+			let body[i-1] = body[i-3];
+			let i = i - 2;
+		}
+		let body[1] = y;
+		let body[0] = x;
 
 		// move left
 		if (direction = 1) {
@@ -46,22 +60,37 @@ class Snake {
 		// move down
 		if (direction = 4) {
 			let y = y + 1;
-			 
 		}
 		
 		return;
 	}
 	
-	method void draw() {
+	method void draw(int direction) {
+		var int i;
+		let i = 1;
+
 		do Gfx.drawHead(x, y);
-		do Sys.wait(100);
+
+		// draw body
+		if (length > 2) {
+			while (i < length) {
+				do Gfx.drawBodyElement(body[i-1], body[i]);
+				let i = i + 2;
+			}
+		}
+		
+		// erase last body element
+		if (direction > 0) {
+			do Gfx.erase(body[length-2], body[length-1]);
+		}
 		
 		return;
 	}
 
 	method void grow() {
-		let length = length + 1;
-
+		let body = Utility.arrayAddCoords(body, length, x, y);
+		let length = length + 2;
+		
 		return;
 	}
 }

@@ -1,21 +1,48 @@
 class Game {
 	field Snake snake;
 	field Apple apple;
+	field int score;
 	
 	constructor Game new() {		
 		do Screen.clearScreen();
 		do Gfx.placeWall();
-	
+
+		// Print score
+		do Output.moveCursor(2, 52);
+		do Output.printString("Score: ");
+
 		let snake = Snake.new(12, 8);
 		let apple = Apple.new();
+		let score = 0;
 	
 	 	return this;
+	}
+
+	method void dispose() {
+		do apple.dispose();
+		do snake.dispose();
+		do Memory.deAlloc(this);
+
+		return;
+	}
+
+	method boolean checkAppleCollision() {
+		var boolean status;
+		let status = false;
+
+		if ((snake.getX() = apple.getX()) &
+			(snake.getY() = apple.getY())) {
+			let status = true;
+		}
+
+		return status;
 	}
 
 	method boolean checkWallCollision() {
 		var boolean status;
 		let status = false;
 		
+		// check playfield bounds
 		if (snake.getX() < 0) {
 			let status = true;
 		}
@@ -32,15 +59,10 @@ class Game {
 		return status;
 	}
 	
-	method void debugCoords() {
-		do Output.moveCursor(2, 54);
-		do Output.printString("X: ");
-		do Output.printInt(snake.getX());
-		do Output.printString(" ");
-		do Output.moveCursor(3, 54);
-		do Output.printString("Y: ");
-		do Output.printInt(snake.getY());
-		do Output.printString(" ");
+	method void updateScore() {
+		let score = score + 1;
+		do Output.moveCursor(2, 60);
+		do Output.printInt(score);
 
 		return;
 	}
@@ -52,24 +74,23 @@ class Game {
 		let exit = false;
 		let direction = 0;
 
-		//let apple = Apple.new(128, 16);
-
 		while (~exit) {
-			//if (key = 0) {
-			//	let key = Keyboard.keyPressed();
-			//	do snake.move(direction);
-			//	do debugCoords();
-			//}
 			let key = Keyboard.keyPressed();
+			//do Gfx.erase(snake.getX(), snake.getY());
 			do snake.move(direction);
 			
 			if (checkWallCollision() = true) {
 				let exit = true;
 			} else {
-				do snake.draw();
+				do snake.draw(direction);
+				do Sys.wait(100);
 			}
 
-			do debugCoords();
+			if (checkAppleCollision() = true) {
+				do updateScore();
+				do snake.grow();
+				do apple.generate();
+			}
 
 			if (key = 130) {
 				let direction = 1;

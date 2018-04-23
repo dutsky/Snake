@@ -17,4 +17,23 @@ class Utility {
 
 		return result;
 	}
+
+	function Array arrayAddCoords(Array inArr, int length, int x, int y) {
+		var Array outArr;
+		var int i;
+		let i = 0;
+		let outArr = Array.new(length + 2);
+
+		while (i < length) {
+			let outArr[i] = inArr[i];
+			let i = i + 1;
+		}
+
+		let outArr[length] = x;
+		let outArr[length+1] = y;
+
+		do inArr.dispose();
+
+		return outArr;
+	}
 }
