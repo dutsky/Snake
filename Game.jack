@@ -3,17 +3,19 @@ class Game {
 	field Apple apple;
 	field int score;
 	
-	constructor Game new() {		
+	constructor Game new() {
+		// initialize new game
 		do Screen.clearScreen();
 		do Gfx.placeWall();
 
-		// Print score
-		do Output.moveCursor(2, 52);
-		do Output.printString("Score: ");
-
+		// place snake and apple
 		let snake = Snake.new(12, 8);
 		let apple = Apple.new();
+		
+		// print score
 		let score = 0;
+		do Output.moveCursor(2, 52);
+		do Output.printString("Score: ");
 	
 	 	return this;
 	}
@@ -59,6 +61,26 @@ class Game {
 		return status;
 	}
 	
+	method boolean checkSnakeCollision() {
+		var boolean status;
+		var int i;
+		var Array body;
+		let status = false;
+		let body = snake.getBody();
+		let i = 0;
+		
+		// if snake head coords == body elements coords -- collision
+		while (i < snake.getLength()) {
+			if ((snake.getX() = body[i]) &
+			(snake.getY() = body[i+1])) {
+				let status = true;
+			}
+			let i = i + 2;
+		}
+		
+		return status;		
+	}
+	
 	method void updateScore() {
 		let score = score + 1;
 		do Output.moveCursor(2, 60);
@@ -76,9 +98,14 @@ class Game {
 
 		while (~exit) {
 			let key = Keyboard.keyPressed();
-			//do Gfx.erase(snake.getX(), snake.getY());
 			do snake.move(direction);
 			
+			// check if we bite ourselves
+			if ((checkSnakeCollision() = true) & (direction > 0)) {
+				let exit = true;
+			}
+			
+			// check if we slammed the wall
 			if (checkWallCollision() = true) {
 				let exit = true;
 			} else {
@@ -86,24 +113,29 @@ class Game {
 				do Sys.wait(100);
 			}
 
+			// check if we ate an apple
 			if (checkAppleCollision() = true) {
 				do updateScore();
 				do snake.grow();
 				do apple.generate();
 			}
 
+			// left
 			if (key = 130) {
 				let direction = 1;
 			}
 
+			// up
 			if (key = 131) {
 				let direction = 3;
 			}
 
+			// right
 			if (key = 132) {
 				let direction = 2;
 			}
 
+			// down
 			if (key = 133) {
 				let direction = 4;
 			}

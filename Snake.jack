@@ -30,12 +30,21 @@ class Snake {
 	method int getY() {
 		return y;
 	}
+	
+	method Array getBody() {
+		return body;
+	}
+	
+	method int getLength() {
+		return length;
+	}
 
 	method void move(int direction) {
-		// do Gfx.erase(x, y);
 		var int i;
 
-		// move body
+		// move body:
+		// current head coords -> first body element coords
+		// first body element -> n-body element coords
 		let i = length-1;
 		while (i > 1) {
 			let body[i] = body[i-2];
@@ -45,19 +54,20 @@ class Snake {
 		let body[1] = y;
 		let body[0] = x;
 
-		// move left
+		// move head:
+		// left
 		if (direction = 1) {
 			let x = x - 1;
 		}
-		// move right
+		// right
 		if (direction = 2) {
 			let x = x + 1;
 		}
-		// move up
+		// up
 		if (direction = 3) {
 			let y = y - 1;
 		}
-		// move down
+		// down
 		if (direction = 4) {
 			let y = y + 1;
 		}
@@ -79,7 +89,7 @@ class Snake {
 			}
 		}
 		
-		// erase last body element
+		// last body element is eraser
 		if (direction > 0) {
 			do Gfx.erase(body[length-2], body[length-1]);
 		}
@@ -88,6 +98,7 @@ class Snake {
 	}
 
 	method void grow() {
+		// grow our snake: add new body element with head cooords
 		let body = Utility.arrayAddCoords(body, length, x, y);
 		let length = length + 2;
 		
